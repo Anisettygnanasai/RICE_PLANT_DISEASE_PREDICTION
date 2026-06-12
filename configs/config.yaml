@@ -13,7 +13,7 @@ data:
 model:
   backbone: resnet18
   pretrained: true
-  freeze_backbone: false            # fine-tune full network (set true for feature-extraction mode)
+  freeze_backbone: true            # Freeze early layers, fine-tune last 2 conv blocks + head
   dropout: 0.4                       # dropout in classifier head
   num_classes: auto                  # auto-detected from data_dir
 

@@ -16,12 +16,15 @@ def build_model(num_classes, config):
     
     # 2. Freeze backbone if requested
     if model_config['freeze_backbone']:
+        # Freeze all layers first
         for param in model.parameters():
             param.requires_grad = False
             
-        # Optional: unfreeze layer4 for better fine-tuning
-        # for param in model.layer4.parameters():
-        #     param.requires_grad = True
+        # Unfreeze the last 2 convolutional blocks (layer3 and layer4 in ResNet)
+        for param in model.layer3.parameters():
+            param.requires_grad = True
+        for param in model.layer4.parameters():
+            param.requires_grad = True
             
     # 3. Replace the final fc layer
     dropout_p = model_config['dropout']
