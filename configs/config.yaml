@@ -1,0 +1,57 @@
+project:
+  name: rice-disease-classifier
+  seed: 42
+  device: auto                      # auto-detect cuda/cpu
+
+data:
+  data_dir: data/processed
+  img_size: 224                     # ResNet18 standard input
+  batch_size: 32
+  num_workers: 4
+  class_names_path: class_names.json
+
+model:
+  backbone: resnet18
+  pretrained: true
+  freeze_backbone: false            # fine-tune full network (set true for feature-extraction mode)
+  dropout: 0.4                       # dropout in classifier head
+  num_classes: auto                  # auto-detected from data_dir
+
+training:
+  epochs: 50
+  optimizer: adamw
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  scheduler: cosine                  # cosine | plateau
+  label_smoothing: 0.1
+
+early_stopping:
+  enabled: true
+  patience: 7
+  monitor: val_loss                  # val_loss | val_accuracy
+  min_delta: 0.001
+
+checkpoint:
+  dir: checkpoints
+  save_best_only: true
+  metric: val_accuracy
+
+augmentation:
+  train:
+    horizontal_flip: 0.5
+    vertical_flip: 0.2
+    rotate_limit: 25
+    brightness_contrast: 0.3
+    hue_saturation: 0.3
+    gaussian_blur: 0.1
+    coarse_dropout: 0.2
+  val_test:
+    resize_only: true
+
+wandb:
+  enabled: true
+  project: rice-disease-classifier
+  entity: null                       # set your W&B username/team
+  log_images: true
+  log_confusion_matrix: true
+  log_freq: epoch                    # epoch | batch
