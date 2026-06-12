@@ -15,3 +15,8 @@ Pillow>=10.2.0
 # Optional — inference demo UI
 streamlit>=1.32.0
 gradio>=4.20.0
+
+# API and Deployment
+fastapi>=0.109.0
+uvicorn>=0.27.0
+python-multipart>=0.0.9
