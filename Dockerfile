@@ -20,8 +20,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application
 COPY . .
 
+# Ensure Python output is not buffered (so Render can show crash logs immediately)
+ENV PYTHONUNBUFFERED=1
+
 # Expose the default Render port
 EXPOSE 10000
 
-# Run the FastAPI server using the shell form so $PORT gets evaluated by Render
-CMD uvicorn app.api:app --host 0.0.0.0 --port ${PORT:-10000}
+# Run the FastAPI server using bash so $PORT is guaranteed to evaluate correctly
+CMD ["/bin/bash", "-c", "uvicorn app.api:app --host 0.0.0.0 --port ${PORT:-10000}"]
