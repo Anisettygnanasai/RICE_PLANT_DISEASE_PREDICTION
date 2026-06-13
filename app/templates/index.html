@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantAI | Enterprise Crop Diagnostics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-600: #475569;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(152,100%,74%,0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,56%,0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(152,100%,74%,0.15) 0px, transparent 50%);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Glassmorphic Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--secondary);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(16, 185, 129, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .upload-subtext {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-top: 0.5rem;
+        }
+
+        #fileInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Image Preview */
+        .preview-container {
+            display: none;
+            margin-top: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .analyze-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .analyze-btn:disabled {
+            background: var(--gray-200);
+            color: var(--gray-600);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loader */
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Results Dashboard */
+        .results-panel {
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .result-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Confidence Bar */
+        .confidence-container {
+            margin-bottom: 2rem;
+        }
+        
+        .confidence-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .confidence-track {
+            height: 12px;
+            background: var(--gray-200);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 99px;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Detailed Report */
+        .report-section {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .report-section h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .report-section p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            background: white;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: var(--gray-100);
+            border-color: var(--gray-600);
+        }
+
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .action-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-leaf"></i> PlantAI
+        </div>
+        <div class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Knowledge Base</a>
+            <a href="#">Expert Network</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Input Section -->
+        <div class="glass-card">
+            <div class="hero-text">
+                <h1>Enterprise Crop Diagnostics</h1>
+                <p>Upload a high-resolution image of a plant leaf. Our proprietary AI model will analyze visual biomarkers to detect diseases with sub-second latency.</p>
+            </div>
+
+            <form id="uploadForm">
+                <div class="upload-zone" id="dropZone">
+                    <input type="file" id="imageInput" accept="image/*" required>
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <div class="upload-text">Drag & drop your image here</div>
+                    <div class="upload-subtext">or click to browse from your computer</div>
+                </div>
+
+                <div class="preview-container" id="previewContainer">
+                    <img id="preview" src="" alt="Leaf preview">
+                </div>
+
+                <button type="submit" class="analyze-btn" id="submitBtn" disabled>
+                    <span id="btnText">Initiate AI Analysis</span>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </form>
+            
+            {% if not model_loaded %}
+            <div style="margin-top: 1rem; padding: 1rem; background: #fee2e2; border-radius: 8px; color: #991b1b; font-size: 0.9rem;">
+                <i class="fa-solid fa-triangle-exclamation"></i> <strong>System Notice:</strong> The neural network checkpoint is not loaded. Please ensure training is complete and <code>best_model.pth</code> is deployed.
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Results Section -->
+        <div class="glass-card results-panel" id="resultsPanel">
+            <div class="status-badge">
+                <i class="fa-solid fa-check-circle"></i> Analysis Complete
+            </div>
+            
+            <h2 class="result-title" id="diseaseName">Disease Name</h2>
+            
+            <div class="confidence-container">
+                <div class="confidence-header">
+                    <span>AI Confidence Score</span>
+                    <span id="confidenceScore">0%</span>
+                </div>
+                <div class="confidence-track">
+                    <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h3><i class="fa-solid fa-microscope" style="color: var(--primary)"></i> Biological Description</h3>
+                <p id="resDescription">Loading...</p>
+            </div>
+
+            <div class="report-section">
+                <h3><i class="fa-solid fa-virus" style="color: var(--warning)"></i> Causes & Symptoms</h3>
+                <p id="resCauses">Loading...</p>
+            </div>
+
+            <div class="report-section">
+                <h3><i class="fa-solid fa-shield-halved" style="color: var(--success)"></i> Recommended Action Plan</h3>
+                <p id="resPrevention">Loading...</p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="window.print()">
+                    <i class="fa-solid fa-file-pdf"></i> Save Report
+                </button>
+                <button class="action-btn">
+                    <i class="fa-solid fa-user-doctor"></i> Consult Expert
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const imageInput = document.getElementById('imageInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const preview = document.getElementById('preview');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+        const resultsPanel = document.getElementById('resultsPanel');
+
+        // Drag and drop handlers
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            imageInput.files = files;
+            handleFileSelect(files[0]);
+        });
+
+        imageInput.addEventListener('change', function() {
+            handleFileSelect(this.files[0]);
+        });
+
+        function handleFileSelect(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    dropZone.style.display = 'none';
+                    previewContainer.style.display = 'block';
+                    submitBtn.disabled = false;
+                }
+                reader.readAsDataURL(file);
+                resultsPanel.style.display = 'none'; // hide old results
+            }
+        }
+
+        // Form Submission
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = imageInput.files[0];
+            if (!file) return;
+
+            // UI Loading state
+            btnText.textContent = 'Processing Image...';
+            loader.style.display = 'block';
+            submitBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Populate Dashboard
+                    document.getElementById('diseaseName').textContent = data.data.predicted_class;
+                    
+                    const confPercent = (data.data.confidence * 100).toFixed(1);
+                    document.getElementById('confidenceScore').textContent = confPercent + '%';
+                    
+                    // Reset animation
+                    const fill = document.getElementById('confidenceFill');
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = confPercent + '%';
+                        // Change color based on confidence
+                        if(data.data.confidence < 0.6) fill.style.background = 'var(--warning)';
+                        else fill.style.background = 'linear-gradient(90deg, var(--secondary), var(--primary))';
+                    }, 100);
+
+                    // Populate Rich Data
+                    const details = data.data.details;
+                    document.getElementById('resDescription').textContent = details.description;
+                    document.getElementById('resCauses').textContent = details.causes;
+                    document.getElementById('resPrevention').textContent = details.prevention;
+
+                    resultsPanel.style.display = 'block';
+                } else {
+                    alert('Error: ' + (data.detail || 'Failed to analyze image'));
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Network error occurred. Ensure the API is running.');
+            } finally {
+                btnText.textContent = 'Analyze New Image';
+                loader.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Allow re-uploading
+                dropZone.style.display = 'block';
+                previewContainer.style.display = 'none';
+                imageInput.value = ''; // clear input
+            }
+        });
+    </script>
+</body>
+</html>

@@ -60,7 +60,7 @@ def get_transforms(config):
         A.RandomBrightnessContrast(p=aug_train['brightness_contrast']),
         A.HueSaturationValue(p=aug_train['hue_saturation']),
         A.GaussianBlur(p=aug_train['gaussian_blur']),
-        A.CoarseDropout(max_holes=8, max_height=32, max_width=32, fill_value=0, p=aug_train['coarse_dropout']),
+        A.CoarseDropout(num_holes_range=(1, 8), hole_height_range=(1, 32), hole_width_range=(1, 32), p=aug_train['coarse_dropout']),
         A.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
         ToTensorV2()
     ])

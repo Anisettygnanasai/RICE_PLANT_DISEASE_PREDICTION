@@ -14,15 +14,49 @@ from src.model import build_model
 from src.dataset import IMAGENET_MEAN, IMAGENET_STD
 from src.utils import get_device
 
-# Static recommendation dictionary
-DISEASE_RECOMMENDATIONS = {
-    "Bacterial Leaf Blight": "Apply copper-based bactericide; avoid excess nitrogen; ensure field drainage.",
-    "Brown Spot": "Improve soil potassium levels; apply recommended fungicide; avoid water stress.",
-    "Leaf Smut": "Use resistant varieties next season; apply fungicide at early tillering stage.",
-    "Healthy": "No disease detected. Continue regular monitoring and balanced fertilization.",
-    "Tungro": "Control green leafhopper vectors with insecticides; uproot and destroy infected plants.",
-    "Blast": "Apply tricyclazole or similar fungicide; avoid excess nitrogen fertilizers; manage field water levels.",
-    "Sheath Blight": "Reduce planting density; apply appropriate fungicides; clear field of weeds and crop residues."
+# Structured Enterprise Intelligence Dictionary
+DISEASE_INFO = {
+    "Bacterial Leaf Blight": {
+        "description": "A devastating bacterial disease caused by Xanthomonas oryzae, leading to wilting and death of seedlings.",
+        "causes": "Spreads through wind, rain, and irrigation water, especially in high humidity and temperatures (25-34°C).",
+        "prevention": "Apply copper-based bactericides; use resistant seed varieties; avoid excess nitrogen fertilizers; ensure proper field drainage."
+    },
+    "Brown Spot": {
+        "description": "A fungal disease caused by Bipolaris oryzae, manifesting as brown, oval spots on leaves.",
+        "causes": "Common in soils with poor fertility, nutrient deficiency (especially potassium), and periods of water stress.",
+        "prevention": "Improve soil fertility with balanced NPK fertilizers; apply recommended fungicides (e.g., Propiconazole); avoid water stress."
+    },
+    "Leaf Smut": {
+        "description": "A fungal disease caused by Entyloma oryzae, creating small, black, linear spots (smuts) on leaves.",
+        "causes": "Favored by high humidity, frequent rainfall, and excessive nitrogen application.",
+        "prevention": "Use certified disease-free seeds; practice crop rotation; apply appropriate fungicides during the early tillering stage."
+    },
+    "Healthy": {
+        "description": "The plant exhibits normal growth patterns with no visual symptoms of disease or nutrient deficiency.",
+        "causes": "Optimal environmental conditions, good soil health, and proper agricultural practices.",
+        "prevention": "Continue regular monitoring, maintain balanced fertilization, and ensure adequate water management."
+    },
+    "Tungro": {
+        "description": "A viral disease causing stunting, yellowing of leaves, and delayed flowering.",
+        "causes": "Transmitted primarily by the green leafhopper (Nephotettix virescens).",
+        "prevention": "Control leafhopper populations with insecticides; uproot and destroy infected plants immediately; plant resistant varieties."
+    },
+    "Blast": {
+        "description": "Caused by the fungus Magnaporthe oryzae, it produces diamond-shaped lesions on leaves and can infect collars and panicles.",
+        "causes": "High humidity, prolonged leaf wetness, and cool nights followed by warm days.",
+        "prevention": "Apply systemic fungicides like Tricyclazole; avoid excessive nitrogen; manage field water to avoid drought stress."
+    },
+    "Sheath Blight": {
+        "description": "A major fungal disease caused by Rhizoctonia solani, leading to lesions on the leaf sheath that can spread to the blades.",
+        "causes": "High planting density, excessive nitrogen, and high humidity/temperature within the crop canopy.",
+        "prevention": "Reduce planting density; clear field of weeds and crop residues; apply appropriate fungicides (e.g., Validamycin)."
+    }
+}
+
+FALLBACK_INFO = {
+    "description": "Specific disease profile not found in current database. AI has classified this based on visual anomaly patterns.",
+    "causes": "Various environmental, fungal, bacterial, or viral pathogens specific to this plant variety.",
+    "prevention": "Isolate affected plants. Consult your local agricultural extension or an expert agronomist for specific treatment."
 }
 
 class RiceDiseasePredictor:
@@ -100,16 +134,13 @@ class RiceDiseasePredictor:
         predicted_class = top3_list[0]["class"]
         confidence = top3_list[0]["confidence"]
         
-        recommendation = DISEASE_RECOMMENDATIONS.get(
-            predicted_class, 
-            "General advice: Consult a local agricultural expert for treatment options."
-        )
+        info = DISEASE_INFO.get(predicted_class, FALLBACK_INFO)
         
         result = {
             "predicted_class": predicted_class,
             "confidence": confidence,
             "top3": top3_list,
-            "recommendation": f"{recommendation} (Note: This is general guidance, not a substitute for expert diagnosis.)"
+            "details": info
         }
         
         return result
