@@ -44,7 +44,7 @@ templates = Jinja2Templates(directory="app/templates")
 def root_ui(request: Request):
     """Serves the Enterprise UI from templates."""
     is_loaded = predictor is not None
-    return templates.TemplateResponse("index.html", {"request": request, "model_loaded": is_loaded})
+    return templates.TemplateResponse(request=request, name="index.html", context={"request": request, "model_loaded": is_loaded})
 
 @app.post("/predict")
 async def predict_image(file: UploadFile = File(...)):
