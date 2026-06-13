@@ -135,7 +135,37 @@ def get_dataloaders(config):
 
 if __name__ == "__main__":
     import yaml
-    with open('configs/config.yaml', 'r') as f:
+    import sys
+    
+    # ENTERPRISE BEST PRACTICE: Robust Path Resolution
+    # Big tech companies avoid hardcoded relative paths because they break easily
+    # depending on where the script/notebook is executed from.
+    
+    try:
+        # 1. If running as a .py script, resolve relative to this file's exact location
+        base_dir = Path(__file__).resolve().parent.parent
+    except NameError:
+        # 2. If running inside a Jupyter/Kaggle notebook cell, __file__ doesn't exist
+        # We fallback to the current working directory
+        base_dir = Path.cwd()
+        
+        # 3. Handle Kaggle specifically: if the repo is cloned inside /kaggle/working/PROJECT_NAME
+        if not (base_dir / 'configs' / 'config.yaml').exists():
+            # Search for the config file in subdirectories just in case
+            possible_configs = list(base_dir.glob('*/configs/config.yaml'))
+            if possible_configs:
+                base_dir = possible_configs[0].parent.parent
+
+    config_path = base_dir / 'configs' / 'config.yaml'
+    
+    print(f"Attempting to load configuration from: {config_path}")
+    
+    if not config_path.exists():
+        print(f"Error: [Errno 2] No such file or directory: '{config_path}'")
+        print("Please ensure your 'configs' folder is uploaded to the correct directory in Kaggle.")
+        sys.exit(1)
+        
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
     # This acts as a quick test if run directly.
