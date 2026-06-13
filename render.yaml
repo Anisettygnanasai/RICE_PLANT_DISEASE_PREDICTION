@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: rice-disease-api
+    name: plant-disease-api
     env: docker
     plan: free # Change this to starter/standard depending on model size and traffic needs
     envVars:

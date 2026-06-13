@@ -1,0 +1,136 @@
+{
+    "Diseases": {
+        "Bacterial Leaf Blight": {
+            "description": "A devastating bacterial disease causing wilting, yellowing, and death of plant tissue.",
+            "causes": "Spreads via water (rain/irrigation) and mechanical transfer in hot, humid conditions.",
+            "prevention": "Apply copper-based bactericides. Improve field drainage and avoid excessive nitrogen."
+        },
+        "Apple Scab": {
+            "description": "A fungal disease that causes olive-green to black scabs on leaves and fruit.",
+            "causes": "Triggered by the fungus Venturia inaequalis, thriving in cool, wet spring weather.",
+            "prevention": "Rake and destroy fallen leaves. Apply protective fungicides early in the season."
+        },
+        "Black Rot": {
+            "description": "A destructive fungal disease that causes brown circular lesions and rotting fruit.",
+            "causes": "Caused by the fungus Guignardia bidwellii, spreading via rain splash from infected mummies.",
+            "prevention": "Prune out diseased wood. Remove all mummified fruit and apply preventative fungicides."
+        },
+        "Cedar Apple Rust": {
+            "description": "A complex fungal disease that requires two hosts (Juniper and Apple) causing orange-yellow spots.",
+            "causes": "Spores travel via wind from infected cedar/juniper trees during wet spring conditions.",
+            "prevention": "Remove nearby cedar/juniper hosts. Apply preventative sterol inhibitor fungicides."
+        },
+        "Blight": {
+            "description": "A rapid and complete chlorosis, browning, and death of plant tissues (leaves, branches, flowers).",
+            "causes": "Caused by various fungi and bacteria that thrive in warm, highly humid environments.",
+            "prevention": "Increase air circulation through pruning. Apply broad-spectrum fungicides/bactericides."
+        },
+        "Early Blight": {
+            "description": "Fungal disease causing 'bullseye' target-like dark spots starting on lower foliage.",
+            "causes": "Alternaria solani fungus spreading from soil debris during warm, wet weather.",
+            "prevention": "Rotate crops and use drip irrigation to keep leaves dry. Apply chlorothalonil-based treatments."
+        },
+        "Late Blight": {
+            "description": "Highly aggressive disease causing large, dark, water-soaked lesions that rapidly kill the plant.",
+            "causes": "Phytophthora infestans (a water mold) spreading via wind in cool, damp conditions.",
+            "prevention": "Destroy all infected plants immediately. Use resistant varieties and robust fungicide programs."
+        },
+        "Brown Spot": {
+            "description": "A common fungal disease characterized by small, circular brown/black spots surrounded by yellow halos.",
+            "causes": "Associated with poor soil fertility, plant stress, and extended periods of leaf wetness.",
+            "prevention": "Improve soil nutrition (especially NPK balance). Remove infected lower leaves."
+        },
+        "Cercospora Leaf Spot": {
+            "description": "Fungal infection causing distinct gray-centered spots with purple to reddish-brown borders.",
+            "causes": "Spreads rapidly in prolonged high humidity and warm temperatures.",
+            "prevention": "Use pathogen-free seeds. Practice 2-3 year crop rotation and deep plowing of residue."
+        },
+        "Powdery Mildew": {
+            "description": "Fungal disease that forms a distinct white, powdery coating on leaf surfaces and stems.",
+            "causes": "High humidity combined with dry foliage and moderate temperatures.",
+            "prevention": "Improve airflow via spacing. Apply sulfur-based or potassium bicarbonate fungicides."
+        },
+        "Common Rust": {
+            "description": "Fungal disease identifiable by raised, reddish-brown pustules predominantly on leaf surfaces.",
+            "causes": "Fungal spores transported by wind currents, requiring surface moisture to germinate.",
+            "prevention": "Plant rust-resistant hybrids. Apply foliar fungicides at early detection stages."
+        },
+        "Esca Black Measles": {
+            "description": "A complex wood disease causing 'tiger-stripe' leaf necrosis and spotting on fruit.",
+            "causes": "A complex of several fungi infecting through pruning wounds over multiple years.",
+            "prevention": "Practice sanitary pruning, protect large wounds with sealants, and remove infected wood."
+        },
+        "Leaf Blight Isariopsis Leaf Spot": {
+            "description": "Fungal disease causing large, irregular brown patches that dry out and tear.",
+            "causes": "Fungus overwintering in plant debris and spreading during humid, rainy weather.",
+            "prevention": "Clean up all fallen leaf debris in autumn. Apply appropriate organic or chemical fungicides."
+        },
+        "Gray Leaf Spot": {
+            "description": "Fungal infection causing small, tan, rectangular lesions restricted by leaf veins.",
+            "causes": "Cercospora zeae-maydis fungus surviving in crop residue, favored by overcast, humid days.",
+            "prevention": "Utilize crop rotation and tillage to bury residue. Select resistant plant genetics."
+        },
+        "Leaf Smut": {
+            "description": "Fungal disease creating small, linear black blisters (smuts) filled with spores.",
+            "causes": "Fungus overwinters in soil and residue, infecting new growth during wet weather.",
+            "prevention": "Use certified disease-free seeds and utilize systemic seed treatments."
+        },
+        "Nitrogen Deficiency": {
+            "description": "Nutrient disorder causing overall pale green to yellowing (chlorosis) of older leaves.",
+            "causes": "Depleted soil nitrogen, poor root health, or excessive watering leaching nutrients.",
+            "prevention": "Apply nitrogen-rich organic or synthetic fertilizers. Test soil pH to ensure nutrient availability."
+        },
+        "Orange Haunglongbing Citrus Greening": {
+            "description": "Fatal bacterial disease causing mottled leaves, stunted growth, and bitter, green fruit.",
+            "causes": "Transmitted exclusively by the Asian citrus psyllid insect vector.",
+            "prevention": "No cure exists. Remove and destroy infected trees immediately. Control the psyllid vector population."
+        },
+        "Bacterial Spot": {
+            "description": "Bacterial disease causing small, water-soaked spots that turn dark brown and angular.",
+            "causes": "Xanthomonas bacteria spreading via splashing rain, tools, and human contact.",
+            "prevention": "Avoid working with wet plants. Apply copper fungicides prophylactically."
+        },
+        "Leaf Mold": {
+            "description": "Fungal disease starting as pale green spots on upper leaves with olive-green fuzzy mold underneath.",
+            "causes": "Passalora fulva fungus flourishing in poorly ventilated environments with >85% humidity.",
+            "prevention": "Maximize air circulation. Prune lower foliage and manage greenhouse humidity."
+        },
+        "Healthy": {
+            "description": "Plant exhibits normal growth patterns, rich coloration, and no visual anomalies.",
+            "causes": "Optimal environmental conditions, robust soil microbiome, and excellent care.",
+            "prevention": "Continue current irrigation, fertilization, and monitoring practices."
+        }
+    },
+    "Categories": {
+        "Rot": {
+            "description": "Fungal or bacterial degradation of plant tissue often accompanied by a foul odor or mushy texture.",
+            "causes": "Excessive moisture, poor drainage, and pathogens entering through mechanical wounds.",
+            "prevention": "Drastically reduce moisture. Prune out all rotting tissue with sterile tools and improve airflow."
+        },
+        "Spot": {
+            "description": "Localized lesions of dead tissue indicating localized fungal or bacterial infection.",
+            "causes": "Water splashing pathogens from soil onto leaves, combined with poor airflow.",
+            "prevention": "Switch to base-drip irrigation to keep leaves dry. Apply preventative broad-spectrum sprays."
+        },
+        "Blight": {
+            "description": "Rapid, aggressive browning and dieback of plant tissue.",
+            "causes": "Highly contagious fungal/bacterial spores thriving in humid micro-climates.",
+            "prevention": "Quarantine affected plants immediately. Clear debris and implement an aggressive fungicide regimen."
+        },
+        "Rust": {
+            "description": "Fungal infection creating powdery, orange/brown/yellow raised pustules.",
+            "causes": "Wind-borne spores requiring extended periods of leaf wetness to establish.",
+            "prevention": "Plant resistant cultivars. Maximize plant spacing to ensure rapid leaf drying after rain."
+        },
+        "Mildew": {
+            "description": "Fungal growth appearing as a powdery or downy white/gray coating.",
+            "causes": "High humidity, overcrowded planting, and poor air circulation.",
+            "prevention": "Prune selectively to open the canopy. Apply sulfur or potassium bicarbonate treatments."
+        },
+        "Deficiency": {
+            "description": "Physiological disorder due to lack of essential macro or micro nutrients.",
+            "causes": "Depleted soil, incorrect pH locking out nutrients, or damaged root systems.",
+            "prevention": "Conduct comprehensive soil testing. Apply targeted fertilizers and amend soil pH."
+        }
+    }
+}

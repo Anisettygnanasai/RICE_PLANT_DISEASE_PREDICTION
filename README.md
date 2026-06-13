@@ -1,10 +1,10 @@
-# Rice Plant Disease Predictor
+# Plant Disease Predictor
 
 ## 1. Project Overview & Problem Statement
-This project provides a robust, production-ready **Rice Plant Leaf Disease Classification System** using deep transfer learning. Early detection of rice leaf diseases such as Bacterial Leaf Blight, Brown Spot, and Leaf Smut is critical for maximizing agricultural yield and preventing crop loss. This system takes raw leaf images and outputs disease predictions, confidence scores, and basic agronomic recommendations.
+This project provides a robust, production-ready **Plant Leaf Disease Classification System** using deep transfer learning. Early detection of plant leaf diseases is critical for maximizing agricultural yield and preventing crop loss. This system takes raw leaf images and outputs disease predictions, confidence scores, and basic agronomic recommendations.
 
 ## 2. Dataset Description
-The model is designed to be trained on standard public agricultural datasets (e.g., Kaggle's "Rice Leaf Disease Image Samples"). 
+The model is designed to be trained on standard public agricultural datasets.
 - **Expected Classes:** Bacterial Leaf Blight, Brown Spot, Leaf Smut, Healthy (extensible to others like Tungro, Blast, Sheath Blight).
 - **Split Strategy:** 70% Train, 15% Validation, 15% Test.
 
@@ -50,10 +50,10 @@ python -m src.inference --image samples/test_leaf.jpg --checkpoint checkpoints/b
 
 ### Python API Example
 ```python
-from src.inference import RiceDiseasePredictor
+from src.inference import PlantDiseasePredictor
 
 # Initialize predictor
-predictor = RiceDiseasePredictor(checkpoint_path="checkpoints/best_model.pth")
+predictor = PlantDiseasePredictor(checkpoint_path="checkpoints/best_model.pth")
 
 # Predict
 result = predictor.predict("path/to/leaf.jpg")
@@ -70,7 +70,7 @@ print(result)
 
 ## 9. Project Structure Tree
 ```text
-rice-disease-predictor/
+plant-disease-predictor/
 ├── data/
 │   ├── raw/
 │   └── processed/

@@ -12,7 +12,7 @@ from collections import Counter
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
-class RiceLeafDataset(Dataset):
+class PlantLeafDataset(Dataset):
     def __init__(self, data_dir, split='train', transform=None):
         self.data_dir = Path(data_dir) / split
         self.transform = transform
@@ -98,9 +98,9 @@ def get_dataloaders(config):
     
     train_transform, val_test_transform = get_transforms(config)
     
-    train_dataset = RiceLeafDataset(data_dir, split='train', transform=train_transform)
-    val_dataset = RiceLeafDataset(data_dir, split='val', transform=val_test_transform)
-    test_dataset = RiceLeafDataset(data_dir, split='test', transform=val_test_transform)
+    train_dataset = PlantLeafDataset(data_dir, split='train', transform=train_transform)
+    val_dataset = PlantLeafDataset(data_dir, split='val', transform=val_test_transform)
+    test_dataset = PlantLeafDataset(data_dir, split='test', transform=val_test_transform)
     
     # Save class names mapping
     save_class_names(train_dataset.classes, class_names_path)

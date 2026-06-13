@@ -1,5 +1,5 @@
 project:
-  name: rice-disease-classifier
+  name: plant-disease-classifier
   seed: 42
   device: auto                      # auto-detect cuda/cpu
 
@@ -50,7 +50,7 @@ augmentation:
 
 wandb:
   enabled: true
-  project: rice-disease-classifier
+  project: plant-disease-classifier
   entity: null                       # set your W&B username/team
   log_images: true
   log_confusion_matrix: true

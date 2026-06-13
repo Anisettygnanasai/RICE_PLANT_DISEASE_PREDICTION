@@ -1,14 +1,14 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from src.inference import RiceDiseasePredictor
+from src.inference import PlantDiseasePredictor
 from PIL import Image
 import io
 import os
 from pathlib import Path
 
 app = FastAPI(
-    title="Rice Plant Disease API",
-    description="API for classifying rice leaf diseases using ResNet18",
+    title="Plant Disease API",
+    description="API for classifying plant leaf diseases using ResNet18",
     version="1.0.0"
 )
 
@@ -29,7 +29,7 @@ checkpoint_path = root_dir / "checkpoints" / "best_model.pth"
 predictor = None
 if checkpoint_path.exists():
     try:
-        predictor = RiceDiseasePredictor(checkpoint_path=str(checkpoint_path))
+        predictor = PlantDiseasePredictor(checkpoint_path=str(checkpoint_path))
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading model: {e}")

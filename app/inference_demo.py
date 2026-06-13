@@ -8,11 +8,11 @@ import pandas as pd
 root_dir = Path(__file__).parent.parent
 sys.path.append(str(root_dir))
 
-from src.inference import RiceDiseasePredictor
+from src.inference import PlantDiseasePredictor
 
 # Page config
 st.set_page_config(
-    page_title="Rice Plant Disease Predictor",
+    page_title="Plant Disease Predictor",
     page_icon="🌿",
     layout="centered"
 )
@@ -24,12 +24,12 @@ def load_predictor():
     checkpoint_path = root_dir / "checkpoints" / "best_model.pth"
     if not checkpoint_path.exists():
         return None
-    return RiceDiseasePredictor(checkpoint_path=str(checkpoint_path))
+    return PlantDiseasePredictor(checkpoint_path=str(checkpoint_path))
 
 predictor = load_predictor()
 
-st.title("🌿 Rice Plant Disease Predictor")
-st.write("Upload an image of a rice leaf to detect potential diseases.")
+st.title("🌿 Plant Disease Predictor")
+st.write("Upload an image of a plant leaf to detect potential diseases.")
 
 if predictor is None:
     st.error("⚠️ Model checkpoint not found! Please train the model first by running `python -m src.train`.")
@@ -51,11 +51,15 @@ if uploaded_file is not None:
             
             # Results display
             st.subheader("Prediction Results")
-            st.write(f"**Predicted Class:** {result['predicted_class']}")
+            st.write(f"**Predicted Disease:** {result['predicted_class']}")
             st.write(f"**Confidence:** {result['confidence']:.2%}")
             
-            # Recommendation
-            st.info(f"💡 **Recommendation:** {result['recommendation']}")
+            # Rich Enterprise Details
+            details = result.get('details', {})
+            if details:
+                st.info(f"📖 **Description:** {details.get('description', 'N/A')}")
+                st.warning(f"⚠️ **Causes:** {details.get('causes', 'N/A')}")
+                st.success(f"💡 **Prevention & Treatment:** {details.get('prevention', 'N/A')}")
             
             # Top-3 Chart
             st.subheader("Top Predictions")
